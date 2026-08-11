@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const { jwtAuthMiddleware, generateToken } = require("../jwt");
 const Candidate = require("../models/candidate");
+const excelJS = require("exceljs");
 
 // POST route to add a person
 router.post("/signup", async (req, res) => {
@@ -113,6 +114,60 @@ router.get("/voters", async (req, res) => {
     res.status(200).json(listVoters);
   } catch (err) {
     console.log(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Route to export voters data to Excel
+router.get("/export/voters", async (req, res) => {
+  try {
+    // 1. Fetch only users with the 'voter' role from the database
+    const users = await User.find({ role: "voter" });
+
+    // 2. Create a new Excel workbook and worksheet
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Voters Data");
+
+    // 3. Define the columns (headers) for the Excel worksheet
+    worksheet.columns = [
+      { header: "S. No.", key: "s_no", width: 10 },
+      { header: "Name", key: "name", width: 25 },
+      { header: "Aadhar Number", key: "aadharCardNumber", width: 20 },
+      { header: "Age", key: "age", width: 10 },
+      { header: "Has Voted?", key: "isVoted", width: 15 },
+    ];
+
+    // Optional: Style the header row to make it bold for better visibility
+    worksheet.getRow(1).font = { bold: true };
+
+    // 4. Loop through the fetched users and add each voter as a row in the worksheet
+    let counter = 1;
+    users.forEach((user) => {
+      worksheet.addRow({
+        s_no: counter,
+        name: user.name,
+        aadharCardNumber: user.aadharCardNumber,
+        age: user.age,
+        isVoted: user.isVoted ? "Yes" : "No", // Convert boolean true/false to readable Yes/No
+      });
+      counter++;
+    });
+
+    // 5. Set response headers to trigger an Excel file download in the browser
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=voters_data.xlsx",
+    );
+
+    // 6. Write the workbook data to the response and send it to the client
+    await workbook.xlsx.write(res);
+    res.status(200).end();
+  } catch (err) {
+    console.error("Excel Export Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
