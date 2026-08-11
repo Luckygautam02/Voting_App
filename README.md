@@ -66,3 +66,7 @@ npm install
 # Start the Vite development server
 npm run dev
 ```
+
+# Voting App
+
+🚀 **Live Demo:** [Click here to view the live app](http://15.206.185.215:8080)
