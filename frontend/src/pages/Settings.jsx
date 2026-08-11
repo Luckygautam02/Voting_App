@@ -31,7 +31,7 @@ const Settings = () => {
       }
 
       // API call to your backend PUT route
-      const response = await axios.put(
+      await axios.put(
         "http://localhost:5001/user/profile/password",
         {
           currentPassword,
