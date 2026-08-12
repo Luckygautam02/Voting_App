@@ -32,7 +32,7 @@ const Settings = () => {
 
       // API call to your backend PUT route
       await axios.put(
-        "http://localhost:5001/user/profile/password",
+        "http://15.206.185.215:8080/api/user/profile/password",
         {
           currentPassword,
           newPassword,

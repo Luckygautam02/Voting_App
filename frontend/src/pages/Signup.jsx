@@ -21,7 +21,7 @@ const Signup = () => {
 
     try {
       // Sending signup request to the backend API
-      await axios.post("http://localhost:5001/user/signup", {
+      await axios.post("http://15.206.185.215:8080/api/user/signup", {
         name,
         age,
         mobileNumber,

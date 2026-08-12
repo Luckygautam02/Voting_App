@@ -15,10 +15,13 @@ const Login = () => {
 
     try {
       // Sending login request to the backend API
-      const response = await axios.post("http://localhost:5001/user/login", {
-        aadharCardNumber: aadharCardNumber,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://15.206.185.215:8080/api/user/login",
+        {
+          aadharCardNumber: aadharCardNumber,
+          password: password,
+        },
+      );
 
       // Save token and redirect
       const token = response.data.token;

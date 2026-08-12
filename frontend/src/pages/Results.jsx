@@ -21,7 +21,7 @@ const Results = () => {
 
         // Fetching data from your optimized vote count route
         const response = await axios.get(
-          "http://localhost:5001/candidate/vote/count",
+          "http://15.206.185.215:8080/api/candidate/vote/count",
           {
             headers: { Authorization: `Bearer ${token}` },
           },

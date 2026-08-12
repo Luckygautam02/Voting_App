@@ -23,9 +23,12 @@ const Admin = () => {
   const fetchCandidates = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5001/candidate", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "http://15.206.185.215:8080/api/candidate",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       setCandidates(response.data);
     } catch (err) {
       console.error("Error fetching candidates:", err);
@@ -54,7 +57,7 @@ const Admin = () => {
       if (isEditMode) {
         // PUT request to update existing candidate
         await axios.put(
-          `http://localhost:5001/candidate/${editCandidateId}`,
+          `http://15.206.185.215:8080/api/candidate/${editCandidateId}`,
           {
             name,
             party,
@@ -68,7 +71,7 @@ const Admin = () => {
       } else {
         // POST request to create new candidate
         await axios.post(
-          "http://localhost:5001/candidate",
+          "http://15.206.185.215:8080/api/candidate",
           {
             name,
             party,
@@ -117,9 +120,12 @@ const Admin = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5001/candidate/${candidateId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `http://15.206.185.215:8080/api/candidate/${candidateId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       setSuccessMsg("Candidate deleted successfully!");
       fetchCandidates(); // Refresh list after deletion

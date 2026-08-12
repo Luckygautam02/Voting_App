@@ -22,7 +22,7 @@ const Dashboard = () => {
 
         // Fetch user profile to get name and role
         const profileRes = await axios.get(
-          "http://localhost:5001/user/profile",
+          "http://15.206.185.215:8080/api/user/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -33,7 +33,7 @@ const Dashboard = () => {
 
         // Fetch candidate list
         const candidateRes = await axios.get(
-          "http://localhost:5001/candidate",
+          "http://15.206.185.215:8080/api/candidate",
           {
             headers: { Authorization: `Bearer ${token}` },
           },
@@ -54,7 +54,7 @@ const Dashboard = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        `http://localhost:5001/candidate/vote/${candidateId}`,
+        `http://15.206.185.215:8080/api/candidate/vote/${candidateId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
